@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Watubora",
+  "version": "0.0.1",
+  "description": "A Chrome extension to remove the homepage videos on youtube so you're not distracted.",
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["src/content.js"]
+    }
+  ],
+  "permissions": ["tabs"],
+  "icons": {
+    "16": "assets/watubora.png",
+    "48": "assets/watubora.png",
+    "128": "assets/watubora.png"
+  },
+  "action": {
+    "default_icon": "assets/watubora.png",
+    "default_title": "watubora",
+    "default_popup": "src/popup.html"
+  }
+}
