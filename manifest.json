@@ -9,7 +9,7 @@
       "js": ["src/content.js"]
     }
   ],
-  "permissions": ["tabs"],
+  "permissions": ["tabs", "activeTab", "scripting"],
   "icons": {
     "16": "assets/watubora.png",
     "48": "assets/watubora.png",
