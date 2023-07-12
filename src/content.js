@@ -1,15 +1,13 @@
 const pageContent = document.getElementById("contents");
+const parentElement = pageContent.parentNode;
+const newElement = document.getElementById("newElement");
 
 function removeHomepageContent() {
-  if (window.location.href === "https://www.youtube.com/") {
+  if (window.location.href === "https://www.youtube.com") {
     console.log(window.location.href);
-
-    // const pageContent = document.getElementById("contents");
-    // console.log(pageContent);
-    // pageContent.style.border = "3px solid red";
-
     // Step 1: Create the new element
     const newElement = document.createElement("div");
+    newElement.id = "newElement";
     const giphyContainer = document.createElement("div");
 
     giphyContainer.innerHTML = `
@@ -17,7 +15,6 @@ function removeHomepageContent() {
 
   
 `;
-
     newElement.style.height = "80vh";
     newElement.style.width = "80vh";
     newElement.style.display = "flex";
@@ -32,22 +29,38 @@ function removeHomepageContent() {
     // Step 2: Get a reference to the existing element
 
     // Step 3: Get a reference to the parent element
-    const parentElement = pageContent.parentNode;
 
     // Step 4: Replace the existing element with the new element
     parentElement.replaceChild(newElement, pageContent);
+    chrome.storage.local.set({ wbCbSt: true });
   }
 }
-removeHomepageContent();
+
+function addPageContent() {
+  const newElement = document.getElementById("newElement");
+  // console.log(newElement);
+  parentElement.replaceChild(pageContent, newElement);
+  // localStorage.setItem("wbCbSt", false);
+  chrome.storage.local.set({ wbCbSt: false });
+}
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  console.log(message);
   if (message.checkboxState) {
-    console.log(checkboxState);
+    // console.log(checkboxState);
+    removeHomepageContent();
+    // console.log(newElement, pageContent);
+    // const contentParent = document.getElementById("primary");
+    // const newElement = document.getElementById("newElement");
+    // console.log(newElement);
     // Checkbox is checked, perform the desired action
     // Your code here
   } else {
-    console.log(checkboxState);
+    addPageContent();
+
     // Checkbox is unchecked, perform another action or revert changes
     // Your code here
   }
 });
+
+removeHomepageContent();
