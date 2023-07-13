@@ -3,7 +3,8 @@ const parentElement = pageContent.parentNode;
 const newElement = document.getElementById("newElement");
 
 function removeHomepageContent() {
-  if (window.location.href === "https://www.youtube.com") {
+  console.log(window.location.href);
+  if (window.location.href === "https://www.youtube.com/") {
     console.log(window.location.href);
     // Step 1: Create the new element
     const newElement = document.createElement("div");
@@ -63,4 +64,12 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   }
 });
 
-removeHomepageContent();
+chrome.storage.local.get("wbCbSt", function (data) {
+  if (data.wbCbSt) {
+    removeHomepageContent();
+  } else {
+    addPageContent();
+  }
+});
+
+// removeHomepageContent();
