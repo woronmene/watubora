@@ -20,17 +20,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //   I need to save the checkbox state in local storage and use it to keep the ui updated
 
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    const currentTabUrl = tabs[0].url;
+
+    // Do something with the URL
+    console.log("Current tab URL:", currentTabUrl);
+  });
+
   checkbox.addEventListener("change", function () {
-    const isChecked = checkbox.checked;
-    let focusText = document.getElementsByClassName("focusText")[0];
-    if (isChecked) {
-      focusText.textContent = "Turn off focus mode";
-    } else {
-      focusText.textContent = "Turn on focus mode";
-    }
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      const activeTab = tabs[0];
-      chrome.tabs.sendMessage(activeTab.id, { checkboxState: isChecked });
+      const currentTabUrl = tabs[0].url;
+      if (currentTabUrl === "https://www.youtube.com/") {
+        const isChecked = checkbox.checked;
+        let focusText = document.getElementsByClassName("focusText")[0];
+        if (isChecked) {
+          focusText.textContent = "Turn off focus mode";
+        } else {
+          focusText.textContent = "Turn on focus mode";
+        }
+        chrome.tabs.query(
+          { active: true, currentWindow: true },
+          function (tabs) {
+            const activeTab = tabs[0];
+            chrome.tabs.sendMessage(activeTab.id, { checkboxState: isChecked });
+          }
+        );
+      }
+      // Do something with the URL
     });
   });
 });
